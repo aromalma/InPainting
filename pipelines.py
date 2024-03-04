@@ -55,10 +55,11 @@ class InPaintDDIM(DiffusionPipeline):
                 f" size of {batch_size}. Make sure the batch size matches the length of the generators."
             )
 
-        image = randn_tensor(image_shape, generator=generator, device=self._execution_device, dtype=self.unet.dtype)
+        image = randn_tensor(image_shape, generator=generator, device=self.device, dtype=self.unet.dtype)
         image_T=torch.tensor(image.clone())
 
         ref_image=ref_image.to(self.device)
+        mask = mask.to(self.device)
         # set step values
         self.scheduler.set_timesteps(num_inference_steps)
 
